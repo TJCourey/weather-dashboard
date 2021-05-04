@@ -1,3 +1,6 @@
 header {
   background-color: #fd7e14;
 }
+#weatherIcon {
+  max-width: 100px;
+}

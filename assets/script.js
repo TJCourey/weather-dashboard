@@ -1,18 +1,13 @@
 // global variables
 var apiKey = "e20afaf6f1e2b77793031712c6367a1c";
-// var searchButton = $("#citySearch");
 var searchLoc;
 var firstPull;
-// event handlers
-
-// functions;
-$("#searchBut").click(function (e) {
+var searchArr = [];
+var curDate = moment();
+// event handler
+$(".list-group-item-action").click(function (e) {
   e.preventDefault();
-  searchLoc = $("#citySearch").val().trim();
-  // var dest = searchLoc.replace(/ /g, "");
-  // return searchLoc;
-  console.log(searchLoc);
-  // console.log(dest);
+  searchLoc = $(this).val();
   // get initial weather info
   // communication
   fetch(callUrl1(searchLoc, apiKey))
@@ -24,8 +19,10 @@ $("#searchBut").click(function (e) {
       firstPull = data;
       var selLat = firstPull.coord.lat;
       var selLon = firstPull.coord.lon;
-      console.log(selLat);
-      console.log(selLon);
+      $(".display-4").text(firstPull.name);
+      // console.log(searchArr, "internal");
+      searchHist(searchArr, firstPull.name);
+      $("#Date").text(curDate.format("MMM Do, YYYY"));
       fetch(callUrlEnd(selLat, selLon, apiKey))
         .then(function (response) {
           return response.json();
@@ -33,13 +30,77 @@ $("#searchBut").click(function (e) {
         .then(function (data) {
           finalPull = data;
           console.log(data);
+          displayHist();
+          $("#weatherIcon").attr(
+            "src",
+            "https://openweathermap.org/img/w/" +
+              firstPull.weather[0].icon +
+              ".png"
+          );
+          $("#date").text(curDate);
+          $("#weathDesc").text(finalPull.current.weather[0].description);
+          $("#temp").text("Temp" + finalPull.current.temp + " F ");
+          $("#humid").text("Humidity " + finalPull.current.humidity + "%");
+          $("#wind").text(
+            "Wind Speed " + finalPull.current.wind_speed + " MPH"
+          );
+          // can I use this for cardinal directions (https://gist.github.com/felipeskroski/8aec22f01dabdbf8fb6b)?
+          $("#uvIndex").text("UV Index " + finalPull.current.uvi);
+          disCard(finalPull);
         });
     });
 });
 
-// display info
+$("#searchBut").click(function (e) {
+  e.preventDefault();
+  searchLoc = $("#citySearch").val().trim();
+
+  // get initial weather info
+  // communication
+  fetch(callUrl1(searchLoc, apiKey))
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      firstPull = data;
+      var selLat = firstPull.coord.lat;
+      var selLon = firstPull.coord.lon;
+      $(".display-4").text(firstPull.name);
+      // console.log(searchArr, "internal");
+      searchHist(searchArr, firstPull.name);
+      $("#Date").text(curDate.format("MMM Do, YYYY"));
+      fetch(callUrlEnd(selLat, selLon, apiKey))
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          finalPull = data;
+          console.log(data);
+          displayHist();
+          $("#weatherIcon").attr(
+            "src",
+            "https://openweathermap.org/img/w/" +
+              firstPull.weather[0].icon +
+              ".png"
+          );
+          $("#date").text(curDate);
+          $("#weathDesc").text(finalPull.current.weather[0].description);
+          $("#temp").text("Temp" + finalPull.current.temp + " F ");
+          $("#humid").text("Humidity " + finalPull.current.humidity + "%");
+          $("#wind").text(
+            "Wind Speed " + finalPull.current.wind_speed + " MPH"
+          );
+          // can I use this for cardinal directions (https://gist.github.com/felipeskroski/8aec22f01dabdbf8fb6b)?
+          $("#uvIndex").text("UV Index " + finalPull.current.uvi);
+          disCard(finalPull);
+        });
+    });
+});
+
 // new Date( (data.current.dt +data.timezone_offset) * 1000).toDateString()
 
+// functions;
 var callUrl1 = function (loc, key) {
   let newUrl =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -62,3 +123,44 @@ var callUrlEnd = function (lat, lon, key) {
   console.log(finalCall);
   return finalCall;
 };
+
+// display info
+
+var disCard = function (arr) {
+  $(".fiveday").each(function (i) {
+    var temp = arr.daily[i].temp.day;
+    var imgLink =
+      "https://openweathermap.org/img/w/" +
+      arr.daily[i].weather[0].icon +
+      ".png";
+    var wind = arr.daily[i].wind_speed;
+    var humid = arr.daily[i].humidity;
+    this.querySelector(".day-icon").setAttribute("src", imgLink);
+    this.querySelector(".temp").textContent = "Temp:" + temp + "F";
+    this.querySelector(".wind").textContent = "Wind" + wind + "MPH";
+    this.querySelector(".humid").textContent = "Humidity:" + humid + "%";
+  });
+};
+
+var searchHist = function (disArr, locsave) {
+  // console.log(locsave, "parameter");
+  var disArr = JSON.parse(localStorage.getItem("citySave")) || [];
+  disArr.unshift(locsave);
+  if (disArr.length > 5) {
+    disArr.pop();
+  }
+  // console.log(locArr, "storage");
+  localStorage.setItem("citySave", JSON.stringify(disArr));
+};
+
+var displayHist = function () {
+  var disArr = JSON.parse(localStorage.getItem("citySave")) || [];
+
+  $(".list-group-item").each(function (i) {
+    $(this).text(disArr[i]);
+    $(this).val(disArr[i]);
+  });
+};
+// searchHist(searchArr, "Tucson");
+displayHist();
+console.log(displayHist);

@@ -48,8 +48,7 @@
           type="button"
           class="list-group-item list-group-item-action active"
           aria-current="true"
-        >
-          Last City
+        >  Last City
         </button>
         <button type="button" class="list-group-item list-group-item-action">
           Prev City
@@ -60,48 +59,71 @@
         <button type="button" class="list-group-item list-group-item-action">
           Babylon
         </button>
-        <button
+        <button 
           type="button"
           class="list-group-item list-group-item-action"
         >
-          A disabled button item
         </button>
       </section>
       <section id="display" class="container col-9">
-        <div class="jumbotron col-9">
-          <h1 class="display-4">Hello, world!</h1>
-          <p class="lead">
-          This is a simple hero unit, a simple jumbotron-style component for
-          calling extra attention to featured content or information.
-          </p>
+        <div class="jumbotron">
+          <div class = "row">
+          <h1 class="display-4 col">Location</h1>
+          <img id = "weatherIcon" src=""  class = "col float-right" alt="">
+        </div>
+          <div class = "row">
+            <p id = "Date" class="lead col-3" >
+              Date
+            </p>
+            <p id="weathDesc" class="col-3">
+
+            </p>
+          </div>
           <hr class="my-4" />
-          <p>
-          It uses utility classes for typography and spacing to space content
-          out within the larger container.
-          </p>
-          <p class="lead">
-          </p>
+          <div class="row">
+          <p id="temp" class="col-3">Temperature</p>
+          <p id= "humid" class="col-3">Humidity</p>
+          <p id = "wind" class="col-3">Wind Speed</p>
+          <p id = "uvIndex" class="col-3"> UV Index</p>
+        </div>
         </div>
       <div class="container row d-flex justify-content-between">
-        <div id="day1" class="card col-2">
-          <div class="card-body">This is some text within a card body.</div>
+        <div class="fiveday card col-2">
+          <img class="day-icon" src="" alt="">
+            <p class="temp"></p>
+            <p class="wind"></p>
+            <p class="humid"></p>
         </div>
-        <div id="day2" class="card col-2">
-          <div class="card-body">This is some text within a card body.</div>
+        <div class="fiveday card col-2">
+          <img class="day-icon" src="" alt="">
+            <p class="temp"></p>
+            <p class="wind"></p>
+            <p class="humid"></p>
         </div>
-        <div id="day3" class="card col-2">
-          <div class="card-body">This is some text within a card body.</div>
+        <div class="fiveday card col-2">
+          <img class="day-icon" src="" alt="">
+            <p class="temp"></p>
+            <p class="wind"></p>
+            <p class="humid"></p>
         </div>
-        <div id="day4" class="card col-2">
-          <div class="card-body">This is some text within a card body.</div>
+        <div class="fiveday card col-2">
+          <img class="day-icon" src="" alt="">
+            <p class="temp"></p>
+            <p class="wind"></p>
+            <p class="humid"></p>
         </div>
-        <div id="day5" class="card col-2">
-        <div class="card-body">This is some text within a card body.</div>
+        <div class="fiveday card col-2">
+          <img class="day-icon" src="" alt="">
+            <p class="temp"></p>
+            <p class="wind"></p>
+            <p class="humid"></p>
         </div>
-    </div>
+        </div>
+      </div>
       </section>
     </div>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     <script
       src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
