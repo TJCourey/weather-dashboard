@@ -31,6 +31,7 @@ $(".list-group-item-action").click(function (e) {
           finalPull = data;
           console.log(data);
           displayHist();
+          uvChange(finalPull.current.uvi);
           $("#weatherIcon").attr(
             "src",
             "https://openweathermap.org/img/w/" +
@@ -78,6 +79,7 @@ $("#searchBut").click(function (e) {
           finalPull = data;
           console.log(data);
           displayHist();
+          uvChange(finalPull.current.uvi);
           $("#weatherIcon").attr(
             "src",
             "https://openweathermap.org/img/w/" +
@@ -140,6 +142,20 @@ var disCard = function (arr) {
     this.querySelector(".wind").textContent = "Wind" + wind + "MPH";
     this.querySelector(".humid").textContent = "Humidity:" + humid + "%";
   });
+};
+
+var uvChange = function (uvi) {
+  if (uvi < 3.0) {
+    $(".jumbotron").css("background-color", "green");
+  } else if (uvi >= 3.0 && uvi <= 5.0) {
+    $(".jumbotron").css("background-color", "yellow");
+  } else if (uvi > 5.0 && uvi <= 7.0) {
+    $(".jumbotron").css("background-color", "orange");
+  } else if (uvi > 7.0 && uvi <= 10.0) {
+    $(".jumbotron").css("background-color", "red");
+  } else {
+    $(".jumbotron").css("background-color", "violet");
+  }
 };
 
 var searchHist = function (disArr, locsave) {
